@@ -29,24 +29,23 @@ jobs:
         run: |
           echo "The repository ${{ github.repository }} contains the following files:"
           ls -la
+  Test:
+    runs-on: ubuntu-latest
+    environment: Test
+    needs: Build
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - run: echo "Test passed ..."
 
-Test:
-  runs-on: ubuntu-latest
-  environment: Test
-  needs: Build
-  if: github.event_name == 'workflow_dispatch'
-  steps:
-    - run: echo "Test passed ..."
-
-Load-Test:
-  runs-on: ubuntu-latest
-  environment: Load-Test
-  needs: Build
-  if: github.event_name == 'workflow_dispatch'
-  steps:
-    - run: |
-        echo "Lead-Test is passed ..."
-        sleep 15
+  Load-Test:
+    runs-on: ubuntu-latest
+    environment: Load-Test
+    needs: Build
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - run: |
+          echo "Lead-Test is passed ..."
+          sleep 15
 
   Production:
     runs-on: ubuntu-latest
